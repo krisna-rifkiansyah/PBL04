@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block title %}Car List{% endblock %}
+
+{% block content %}
+    <h1>Car List</h1>
+
+    <!-- Formulir Pencarian -->
+    <form method="GET" action="{% url 'index' %}">
+        <input type="text" name="q" placeholder="Search cars..." value="{{ query }}">
+        <button type="submit">Search</button>
+    </form>
+    
+    <a href="{% url 'add_car' %}" class="button">Add Car</a>
+
+    <!-- Tabel Data Mobil -->
+    <table class="car-table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Brand</th>
+                <th>Model</th>
+                <th>Price</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for car in cars %}
+                <tr>
+                    <td>{{ car.name }}</td>
+                    <td>{{ car.brand }}</td>
+                    <td>{{ car.model }}</td>
+                    <td>{{ car.price }}</td>
+                    <td>
+                        <a href="{% url 'edit_car' car.id %}" class="edit-link">Edit</a>
+                        <a href="{% url 'delete_car' car.id %}" class="delete-link">Delete</a>
+                    </td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="5">No cars found.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
